@@ -11,6 +11,9 @@ function NavBar(){
     const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
        e.preventDefault();
        setSubmittedname(name)
+       localStorage.setItem("submittedname",submittedname)
+       setShow(false)
+
     };
 
     return(
