@@ -24,7 +24,7 @@ function Home(){
             {
                 `
                 .container{
-                }
+                }   
                 .getstart{
                 background-color:blue;
                 border-radius:10%
@@ -33,6 +33,7 @@ function Home(){
             }
         </style>
         <div className="container">
+                <h1>This project is under construction but you still can use this</h1>
                 <h1>
                    hi {registeredname} Let's build  your job ready resume 
                 </h1>
