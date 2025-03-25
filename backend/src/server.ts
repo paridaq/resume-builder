@@ -1,11 +1,11 @@
 import express, { urlencoded } from 'express'
 import dotenv from 'dotenv'
-import connectDB from './config/db';
+// import connectDB from './config/db';
 import cors from 'cors'
 import authRoute from './routes/authRoute'
 
 dotenv.config()
-connectDB();
+// connectDB();
 
 const app = express();
 

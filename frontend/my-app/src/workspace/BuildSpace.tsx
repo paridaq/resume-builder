@@ -2,8 +2,44 @@ import { useState } from "react"
 
 
 function BuildSpace(){
-   const [projects,setProjects] = useState([{name:"",techStack:"",description:"",}]);
-   const[workexperinces,setWorkexperinces] = useState([{companyName:"",workdescription:""}])
+    interface  workexperince{
+        companyName:string;
+        workdescription:string;
+    }
+    interface Projects {
+      name:string;
+      techStack:string;
+      description:string
+    }
+
+    interface Skills {
+        programminglanguage:string;
+        backend:string;
+        frontend:string;
+        devops:string;
+
+    }
+    
+
+   const[pdfURL,setpdfUrl] = useState<string>('')
+
+   const [projects,setProjects] = useState<Projects[]>([{name:"",techStack:"",description:"",}]);
+   const[workexperinces,setWorkexperinces] = useState<workexperince[]>([{companyName:"",workdescription:""}])
+   const [name,setName] = useState<string>('')
+   const[linkedinURL,setLinkedinURL] = useState<string>('')
+   const[portfolioURL,setPortfolioURL]= useState<string>('')
+   const [githubURL,setGithubURL] = useState<string>('')
+   const[leetcodeurl,setLeetcodeURL] = useState<string>('')
+   const[codeforcesURL,setCodeforcesURL]=useState<string>('')
+   const[summery,setSummery] = useState<string>('')
+   const [skills, setSkills] = useState<Skills>({
+    programminglanguage: "",
+    backend: "",
+    frontend: "",
+    devops: "",
+});
+
+
    
 
    const addWorkexperince = ()=>{
@@ -26,10 +62,41 @@ function BuildSpace(){
     newProjects[index][field] = value
     setProjects(newProjects)
    }
+   
 
 
-   const handleSubmit=(e:React.FormEvent<HTMLFormElement>)=>{
+   const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
+    const formData={
+        name,
+        linkedinURL,
+        portfolioURL,
+        githubURL,
+        leetcodeurl,
+        codeforcesURL,
+        skills,
+        projects,
+        workexperinces,
+        summery
+    }
+    try {
+        //send data to the backend
+        // i am not using any database to store userdata
+        const response = await fetch("http://localhost:8080/api/userinfo/submission",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(formData)
+        })
+        if(response.ok){
+            const result = await response.json();
+            setpdfUrl(result.pdfURl)
+        }
+    } catch (error) {
+        
+    }
+
     
 
    }
@@ -66,25 +133,82 @@ function BuildSpace(){
 
             <form onSubmit={handleSubmit}>
                <label htmlFor="">Name</label>
-               <input type="text" />
+               <input type="text"
+               value={name}
+               onChange={(e)=>{
+                setName(e.target.value)
+               }}
+               />
                <label htmlFor="">Linkedin URL</label>
-               <input type="text" />
+               <input type="text"
+               value={linkedinURL}
+               onChange={(e)=>{
+                setLinkedinURL(e.target.value)
+               }} />
                <label htmlFor="">Portfolio URL</label>
-               <input type="text" />
+               <input type="text" 
+               value={portfolioURL}
+               onChange={(e)=>{
+                setPortfolioURL(e.target.value)
+               }}/>
                <label htmlFor="">github Url</label>
-               <input type="text" />
+               <input type="text"
+               value={githubURL}
+               onChange={(e)=>{
+                setGithubURL(e.target.value)
+               }}
+                />
                <label htmlFor=""> leetcode Url</label>
-               <input type="text" />
+               <input type="text" 
+               value={leetcodeurl}
+               onChange={(e)=>{
+                setLeetcodeURL(e.target.value)
+               }}
+               />
                <label htmlFor="">codeforce Url</label>
-               <input type="text" />
+               <input type="text" 
+               value={codeforcesURL}
+               onChange={(e)=>{
+                setCodeforcesURL(e.target.value)
+               }}
+               />
                <h2>skills</h2>
                <label htmlFor="">programming language</label>
-               <input type="text" />
+               <input type="text" 
+               value={skills.programminglanguage}
+               onChange={(e)=>{
+                setSkills({...skills,
+                    programminglanguage:e.target.value
+                })
+               }}
+               />
                <label htmlFor="">backend </label>
-               <input type="text" />
+               <input type="text"
+               value={skills.backend}
+               onChange={(e)=>{
+                setSkills({
+                    ...skills,backend:e.target.value
+                })
+               }}
+               />
                <label htmlFor="">frontend</label>
-               <input type="text" />
+               <input type="text"
+               value={skills.frontend}
+               onChange={(e)=>{
+                setSkills({
+                    ...skills,frontend:e.target.value
+                })
+               }}
+                />
                <label htmlFor="">devops</label>
+               <input type="text"
+               value={skills.devops}
+               onChange={(e)=>{
+                setSkills({
+                    ...skills,devops:e.target.value
+                })
+               }}
+                />
                <h2>Projects</h2>
                {projects.map((project,index)=>(
                 <div key={index}>
@@ -125,9 +249,24 @@ function BuildSpace(){
                 ))}
                 <button onClick={addWorkexperince}>add workexperince</button>
                 <h2>summery</h2>
+                <input type="text"
+                placeholder="add anything about you"
+                value={summery}
+                onChange={(e)=>{
+                    setSummery(e.target.value)
+                }}
+                 />
+                 <h2>Thank you for using the application to build  your Ressume</h2>
 
                 
             </form>
+
+            {pdfURL &&(
+                <a href={`http://localhost:8080${pdfURL}`} download>
+                    <button>Download Resume</button>
+                </a>
+            )
+            }
         </div>
 
         </>
