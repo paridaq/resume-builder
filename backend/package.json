@@ -19,6 +19,6 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongoose": "^8.10.1",
-    "puppeteer-core": "^24.4.0"
+    "puppeteer": "^24.4.0"
   }
 }

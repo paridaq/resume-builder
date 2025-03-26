@@ -1,37 +1,35 @@
-import {Response,Request} from 'express'
-import { Express } from 'express'
-import puppeteer from 'puppeteer'
-import fs from "fs"
-import path from 'path'
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
-
-export const resumeController =async(req:Request,res:Response):Promise<any>=>{
-  try{
-    const formData = req.body
-    console.log(formData)
-    const {
-        name,
-        linkedinURL,
-        portfolioURL,
-        githubURL,
-        leetcodeURL,
-        codeforcesURL,
-        skills,
-        projects,
-        workExperiences,
-        summary,
-    } = formData;
-    const publicDir = path.join(__dirname, "public");
-    if (!fs.existsSync(publicDir)) {
-        fs.mkdirSync(publicDir, { recursive: true });
-    }
-    const browser = await puppeteer.launch();
-   const page = await browser.newPage();
-   //here we used backticks because we use template litteral 
-   // if we did not use this then we gone need to put \n in everyline
-   const resumeHTML = `
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.resumeController = void 0;
+const puppeteer_1 = __importDefault(require("puppeteer"));
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
+const resumeController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const formData = req.body;
+        console.log(formData);
+        const { name, linkedinURL, portfolioURL, githubURL, leetcodeURL, codeforcesURL, skills, projects, workExperiences, summary, } = formData;
+        const publicDir = path_1.default.join(__dirname, "public");
+        if (!fs_1.default.existsSync(publicDir)) {
+            fs_1.default.mkdirSync(publicDir, { recursive: true });
+        }
+        const browser = yield puppeteer_1.default.launch();
+        const page = yield browser.newPage();
+        //here we used backticks because we use template litteral 
+        // if we did not use this then we gone need to put \n in everyline
+        const resumeHTML = `
     <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,17 +120,18 @@ export const resumeController =async(req:Request,res:Response):Promise<any>=>{
 </body>
 </html></div>
    `;
-   console.log(resumeHTML)
-   await page.setContent(resumeHTML);
-   const  pdfPath = path.join(__dirname,"public",`${Date.now()}-resume.pdf`)
-   console.log("pdfpath :",pdfPath)
-   await page.pdf({path:pdfPath,format:"A4"})
-   await browser.close();
-
-   res.json({ pdfUrl: `/public/${path.basename(pdfPath)}` });
-}catch(error){
-  res.status(500).send({
-    error:"Error while generating Image"
-  })
-}
-}
+        console.log(resumeHTML);
+        yield page.setContent(resumeHTML);
+        const pdfPath = path_1.default.join(__dirname, "public", `${Date.now()}-resume.pdf`);
+        console.log("pdfpath :", pdfPath);
+        yield page.pdf({ path: pdfPath, format: "A4" });
+        yield browser.close();
+        res.json({ pdfUrl: `/public/${path_1.default.basename(pdfPath)}` });
+    }
+    catch (error) {
+        res.status(500).send({
+            error: "Error while generating Image"
+        });
+    }
+});
+exports.resumeController = resumeController;

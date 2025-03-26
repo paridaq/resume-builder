@@ -21,7 +21,7 @@ function BuildSpace(){
     }
     
 
-   const[pdfURL,setpdfUrl] = useState<string>('')
+   const[pdfURL,setpdfURl] = useState<string>('')
 
    const [projects,setProjects] = useState<Projects[]>([{name:"",techStack:"",description:"",}]);
    const[workexperinces,setWorkexperinces] = useState<workexperince[]>([{companyName:"",workdescription:""}])
@@ -82,18 +82,23 @@ function BuildSpace(){
     try {
         //send data to the backend
         // i am not using any database to store userdata
-        const response = await fetch("http://localhost:8080/api/userinfo/submission",{
+        const response = await fetch("http://localhost:8080/api/build/resume-build",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
             body:JSON.stringify(formData)
         })
+        console.log(response)
         if(response.ok){
             const result = await response.json();
-            setpdfUrl(result.pdfURl)
+            console.log(result)
+            setpdfURl(result.pdfUrl)
+            console.log(pdfURL)
+            
         }
     } catch (error) {
+        console.log(error)
         
     }
 
@@ -257,7 +262,7 @@ function BuildSpace(){
                 }}
                  />
                  <h2>Thank you for using the application to build  your Ressume</h2>
-
+                 <button type="submit">SUbmit</button>
                 
             </form>
 
@@ -267,6 +272,7 @@ function BuildSpace(){
                 </a>
             )
             }
+            <h1>here we are</h1>
         </div>
 
         </>

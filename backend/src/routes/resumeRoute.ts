@@ -6,3 +6,5 @@ const app = express();
 const router = express.Router();
 
 router.post('/resume-build',resumeController)
+
+export default router
