@@ -27,8 +27,8 @@ app.get('/',(req:Request,res:Response)=>{
 
 
 
-app.listen(process.env.PORT,()=>{
-    console.log(`server s running on ${process.env.PORT}succesfully`)
-})
+// app.listen(process.env.PORT,()=>{
+//     console.log(`server s running on ${process.env.PORT}succesfully`)
+// })
 
 module.exports = app;
