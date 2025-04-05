@@ -267,7 +267,7 @@ function BuildSpace(){
             </form>
 
             {pdfURL &&(
-                <a href={`https://resume-builder-3kaa.vercel.app${pdfURL}`} download>
+                <a href={`https://resume-builder-3kaa.vercel.app/${pdfURL}`} download>
                     <button>Download Resume</button>
                 </a>
             )
