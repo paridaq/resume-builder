@@ -18,6 +18,9 @@ app.use(express_1.default.urlencoded({ extended: true }));
 //app.use('/public',express.static(path.join(__dirname, "dist/controllers/public")));
 app.use('/public', express_1.default.static('dist/controllers/public'));
 app.use('/api/build', resumeRoute_1.default);
+app.get('/', (req, res) => {
+    res.send('what');
+});
 app.listen(process.env.PORT, () => {
     console.log(`server s running on ${process.env.PORT}succesfully`);
 });

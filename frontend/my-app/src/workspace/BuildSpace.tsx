@@ -82,7 +82,7 @@ function BuildSpace(){
     try {
         //send data to the backend
         // i am not using any database to store userdata
-        const response = await fetch("https://resume-builder-3kaa.vercel.app/api/build/resume-build",{
+        const response = await fetch("http://localhost:8080/api/build/resume-build",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -267,7 +267,7 @@ function BuildSpace(){
             </form>
 
             {pdfURL &&(
-                <a href={`https://resume-builder-3kaa.vercel.app/${pdfURL}`} download>
+                <a href={`http://localhost:8080${pdfURL}`} download>
                     <button>Download Resume</button>
                 </a>
             )
